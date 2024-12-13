@@ -29,7 +29,7 @@
               <p class="username">
                 Shincode
               </p>
-              <time>:2023/6/15 14:20</time>
+              <time>：2023/6/15 14:20</time>
             </div>
             <p class="comment">
               手書きのコメントです。
@@ -37,7 +37,18 @@
           </div>
         </section>
 
-      </div>
+      <form class="formWrapper">
+        <div>
+          <input type="submit" value="書き込む" />
+          <lavel>:名前</lavel>
+          <input type="text">
+        </div>
+        <div>
+          <textarea class="commentTextArea"></textarea>
+          </div>
+      </form>
+
     </div>
-  </body>
+  </div>
+</body>
 </html>

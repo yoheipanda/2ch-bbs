@@ -1,3 +1,12 @@
+<?php
+if(isset($_POST["submitButton"])){
+  $username = $_POST["username"];
+  var_dump($username);  
+  $body = $_POST["body"];
+  var_dump($body);
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,14 +46,14 @@
           </div>
         </section>
 
-      <form class="formWrapper">
+      <form class="formWrapper" method="POST">
         <div>
-          <input type="submit" value="書き込む" />
+          <input type="submit" value="書き込む" name="submitButton">
           <lavel>:名前</lavel>
-          <input type="text">
+          <input type="text" name="username">
         </div>
         <div>
-          <textarea class="commentTextArea"></textarea>
+          <textarea class="commentTextArea" name="body"></textarea>
           </div>
       </form>
 

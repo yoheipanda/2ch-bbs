@@ -2,11 +2,25 @@
 include_once("./app/database/connect.php");
 
 if(isset($_POST["submitButton"])){
-  $username = $_POST["username"]; 
-  var_dump ($username);
-  $body = $_POST["body"];
-  var_dump($body);}
+  $sql = "INSERT INTO `comment` (`username`, `body`, `post_date`) VALUES (:username, ;body, :post_date);";
+    $statement = $pdo->prepare($sql);
+    //値をセットする。
+    statement->bindParam(":username", $_POST["username"], PDO::PARAM_STR);
+  }
+  
+  $comment_array = array();
+  
+  
+  $sql = "SELECT * FROM comment";
+  $statement = $pdo->prepare ($sql);
+  $statement->execute();
+  
+  $comment_array = $statement;
+  
+ // var_dump($comment_array->fetchAll());
+  
 ?>
+
 
 
 <!DOCTYPE html>
@@ -33,19 +47,19 @@ if(isset($_POST["submitButton"])){
       </div>
 
       <section>
+        <?php foreach($comment_array as $comment) :?>
         <article>
           <div class="wrapper">
             <div class="nameArea">
               <span>名前：</span>
-              <p class="username">
-                Shincode
+              <p class="username"><?php echo $comment["username"] ?>
               </p>
-              <time>：2023/6/15 14:20</time>
+              <time><?php echo $comment["post_date"] ?></time>
             </div>
-            <p class="comment">
-              手書きのコメントです。
-            </p>
+            <p class="comment"><?php echo $comment["body"] ?></p>
           </div>
+        </article>
+        <?php endforeach ?>
         </section>
 
       <form class="formWrapper">

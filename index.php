@@ -1,26 +1,41 @@
 <?php 
 include_once("./app/database/connect.php");
+$error_message = array();
 
 if(isset($_POST["submitButton"])){
-  $sql = "INSERT INTO `comment` (`username`, `body`, `post_date`) VALUES (:username, ;body, :post_date);";
-    $statement = $pdo->prepare($sql);
-    //値をセットする。
-    statement->bindParam(":username", $_POST["username"], PDO::PARAM_STR);
+  if(empty($_POST["username"])){
+    $error_message["username"] = "お名前を入力してください";
   }
+  if(empty($_POST["body"])){
+    $error_message["body"] = "コメントを入力してください";
+  }
+  if(empty($error_message)){
+    $post_date = date("Y-m-d H:i:s"); // ここにセミコロンを追加
   
-  $comment_array = array();
+    $sql = "INSERT INTO `comment` (`username`, `body`, `post_date`) VALUES (:username, :body, :post_date);";
+    $statement = $pdo->prepare($sql);
   
+    // 値を正しくバインド
+    $statement->bindParam(":username", $_POST["username"], PDO::PARAM_STR);
+    $statement->bindParam(":body", $_POST["body"], PDO::PARAM_STR);
+    $statement->bindParam(":post_date", $post_date, PDO::PARAM_STR);
   
-  $sql = "SELECT * FROM comment";
-  $statement = $pdo->prepare ($sql);
-  $statement->execute();
+    // 準備されたステートメントを実行
+    $statement->execute();
+  }
+}
   
-  $comment_array = $statement;
-  
- // var_dump($comment_array->fetchAll());
-  
-?>
+$comment_array = array();
 
+$sql = "SELECT * FROM comment";
+$statement = $pdo->prepare($sql);
+$statement->execute();
+
+$comment_array = $statement->fetchAll(PDO::FETCH_ASSOC); // 結果を連想配列として取得
+
+// var_dump($comment_array);
+
+?>
 
 
 <!DOCTYPE html>
@@ -39,6 +54,15 @@ if(isset($_POST["submitButton"])){
     <hr>
   </header>
   <!-- スレッドエリア -->
+  
+  <?php if(isset($error_message)) : ?>
+    <ul class="errorMessage">
+      <?php foreach($error_message as $error) : ?>
+      <li><?php echo $error ?></li>
+        <?php endforeach; ?>
+    </ul>
+  <?php endif; ?>
+  
   <div class="threadWrapper">
     <div class="childWrapper">
       <div class="threadTitle">
@@ -59,13 +83,13 @@ if(isset($_POST["submitButton"])){
             <p class="comment"><?php echo $comment["body"] ?></p>
           </div>
         </article>
-        <?php endforeach ?>
+        <?php endforeach; ?>
         </section>
 
-      <form class="formWrapper">
+      <form class="formWrapper" method="POST">
         <div>
-          <input type="submit" value="書き込む">
-          <lavel>:名前</lavel>
+          <input type="submit" name="submitButton" value="書き込む">
+          <label>:名前</label>
           <input type="text" name="username" class="username">
         </div>
         <div>

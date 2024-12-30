@@ -5,9 +5,15 @@ $error_message = array();
 if(isset($_POST["submitButton"])){
   if(empty($_POST["username"])){
     $error_message["username"] = "お名前を入力してください";
+  }else{
+    //エスケープ処理
+    $escaped["username"] = htmlspecialchars($_POST["username"],ENT_QUOTES,"UTF-8");
   }
   if(empty($_POST["body"])){
     $error_message["body"] = "コメントを入力してください";
+  }else{
+    //エスケープ処理
+    $escaped["body"] = htmlspecialchars($_POST["body"],ENT_QUOTES,"UTF-8");
   }
   if(empty($error_message)){
     $post_date = date("Y-m-d H:i:s"); // ここにセミコロンを追加
@@ -16,8 +22,8 @@ if(isset($_POST["submitButton"])){
     $statement = $pdo->prepare($sql);
   
     // 値を正しくバインド
-    $statement->bindParam(":username", $_POST["username"], PDO::PARAM_STR);
-    $statement->bindParam(":body", $_POST["body"], PDO::PARAM_STR);
+    $statement->bindParam(":username", $escaped["username"], PDO::PARAM_STR);
+    $statement->bindParam(":body", $escaped["body"], PDO::PARAM_STR);
     $statement->bindParam(":post_date", $post_date, PDO::PARAM_STR);
   
     // 準備されたステートメントを実行
@@ -49,26 +55,13 @@ $comment_array = $statement->fetchAll(PDO::FETCH_ASSOC); // 結果を連想配�
   <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
-  <header>
-    <h1 class="title ">2ちゃんねる掲示板</h1>
-    <hr>
-  </header>
-  <!-- スレッドエリア -->
+    <!-- ヘッダーエリア -->
+  <?php include("app/parts/header.php"); ?>
+  <!-- バリデーションチェック -->
+  <?php include("app/parts/varidation.php"); ?>
   
-  <?php if(isset($error_message)) : ?>
-    <ul class="errorMessage">
-      <?php foreach($error_message as $error) : ?>
-      <li><?php echo $error ?></li>
-        <?php endforeach; ?>
-    </ul>
-  <?php endif; ?>
-  
-  <div class="threadWrapper">
-    <div class="childWrapper">
-      <div class="threadTitle">
-        <span>[タイトル]</span>
-        <h1>2ちゃんねる掲示板をつくってみた</h1>
-      </div>
+  <?php include("app/parts/thread.php"); ?>
+
 
       <section>
         <?php foreach($comment_array as $comment) :?>

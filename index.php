@@ -62,35 +62,5 @@ $comment_array = $statement->fetchAll(PDO::FETCH_ASSOC); // 結果を連想配�
   
   <?php include("app/parts/thread.php"); ?>
 
-
-      <section>
-        <?php foreach($comment_array as $comment) :?>
-        <article>
-          <div class="wrapper">
-            <div class="nameArea">
-              <span>名前：</span>
-              <p class="username"><?php echo $comment["username"] ?>
-              </p>
-              <time><?php echo $comment["post_date"] ?></time>
-            </div>
-            <p class="comment"><?php echo $comment["body"] ?></p>
-          </div>
-        </article>
-        <?php endforeach; ?>
-        </section>
-
-      <form class="formWrapper" method="POST">
-        <div>
-          <input type="submit" name="submitButton" value="書き込む">
-          <label>:名前</label>
-          <input type="text" name="username" class="username">
-        </div>
-        <div>
-          <textarea class="commentTextArea" name="body"></textarea>
-          </div>
-      </form>
-
-    </div>
-  </div>
 </body>
 </html>

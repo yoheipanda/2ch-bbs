@@ -69,3 +69,27 @@ section .username {
   color:red;
   margin-left: 30px;
 }
+
+
+
+/*新規スレッド*/
+.newThreadWrapper{
+  background-color: #B3EEB3;
+  padding: 10px;
+  min-width: 1300px;
+  margin: 0 auto;
+  border: 1px solid black;
+  margin-bottom: 20px;
+}
+
+.newChildThreadWrapper{
+  text-align: center;
+  padding: 10px;
+  border: 1px solid black;
+}
+
+.newChildThreadWrapper button a{
+  width: 150px;
+  color: 10px;
+  text-decoration: none;
+}

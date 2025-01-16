@@ -21,6 +21,8 @@ include_once("./app/database/connect.php");
   <?php include("app/parts/varidation.php"); ?>
    <!-- スレッドエリア -->
   <?php include("app/parts/thread.php"); ?>
+  
+  <?php include("app/parts/newThreadButton.php"); ?>
 
 </body>
 </html>

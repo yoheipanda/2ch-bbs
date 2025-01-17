@@ -11,7 +11,7 @@ include_once("./app/database/connect.php");
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>2ちゃんねる掲示板</title>
+  <title>新規スレッド作成ページ</title>
   <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 

@@ -8,7 +8,4 @@
   
   $thread_array = $statement; // 結果を連想配列として取得
   
-  //DB接続を切る
-  $pdo = null;
-  $statement = null;
-?>
+  

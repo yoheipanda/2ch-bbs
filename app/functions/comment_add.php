@@ -22,13 +22,14 @@
     if(empty($error_message)){
       $post_date = date("Y-m-d H:i:s"); // ここにセミコロンを追加
     
-      $sql = "INSERT INTO `comment` (`username`, `body`, `post_date`) VALUES (:username, :body, :post_date);";
+      $sql = "INSERT INTO `comment` (`username`, `body`, `post_date`, `thread_id`) VALUES (:username, :body, :post_date, :thread_id);";
       $statement = $pdo->prepare($sql);
     
       // 値をセットする
       $statement->bindParam(":username", $escaped["username"], PDO::PARAM_STR);
       $statement->bindParam(":body", $escaped["body"], PDO::PARAM_STR);
       $statement->bindParam(":post_date", $post_date, PDO::PARAM_STR);
+      $statement->bindParam(":thread_id", $_POST["threadID"], PDO::PARAM_STR);
       // 準備されたステートメントを実行
       $statement->execute();
     }

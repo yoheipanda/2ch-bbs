@@ -30,7 +30,11 @@
     if(empty($error_message)){
       $post_date = date("Y-m-d H:i:s"); //ここにセミコロンを追加
     
-    //スレッドを追加
+    // トランザクション開始
+    $pdo->beginTransaction();
+
+    try{
+      //スレッドを追加
       $sql = "INSERT INTO `thread` (`title`) VALUES (:title);";
       $statement = $pdo->prepare($sql);
     
@@ -51,7 +55,12 @@
       $statement->bindParam(":title", $escaped["title"], PDO::PARAM_STR);
       
       $statement->execute();
+      
+      $pdo->commit();
+    }catch(Exception $error){
+      $pdo->rollBack();
     }
+  }
     
     //掲示板ページに遷移する
     header("Location: http://localhost:8888/");

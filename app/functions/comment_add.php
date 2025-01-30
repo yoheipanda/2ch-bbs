@@ -10,7 +10,7 @@
       //エスケープ処理
       $escaped["username"] = htmlspecialchars($_POST["username"],ENT_QUOTES,"UTF-8");
     }
-  
+
     // コメント入力チェック
     if(empty($_POST["body"])){
       $error_message["body"] = "コメントを入力してください";
@@ -21,7 +21,11 @@
   
     if(empty($error_message)){
       $post_date = date("Y-m-d H:i:s"); // ここにセミコロンを追加
-    
+
+    // トランザクション開始
+    $pdo->beginTransaction();
+  
+    try{
       $sql = "INSERT INTO `comment` (`username`, `body`, `post_date`, `thread_id`) VALUES (:username, :body, :post_date, :thread_id);";
       $statement = $pdo->prepare($sql);
     
@@ -32,6 +36,13 @@
       $statement->bindParam(":thread_id", $_POST["threadID"], PDO::PARAM_STR);
       // 準備されたステートメントを実行
       $statement->execute();
+
+      $pdo->commit();
+    }catch (Exception $error){
+      $pdo->rollback();
+    }
+    
+
     }
   }
 ?>
